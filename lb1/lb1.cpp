@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <cstdlib> // Для rand() і srand()
+#include <ctime> // Для time()
 
 using namespace std;
 
@@ -12,7 +14,7 @@ void taskMenu(){
     cout<<"Ведіть число(1-3, 0): ";
 }
 
-int a1()
+int a()
 {
     int k=0, N;
     cout<<"Ведіть кількість елементів масиву: ";
@@ -34,10 +36,26 @@ int a1()
     return k;
 }
 
+void b(){
+    int n, a[n];
+    ofstream arr2("files/array2.bin", ios::binary);
+    cout<<"Ведіть кількість елементів масиву: ";
+    cin>>n;
+    size_t size = sizeof(a) / sizeof(a[0]);
+    srand(time(nullptr));
+
+    for (int i=0; i<n; ++i) {
+        a[i] += rand() % 15; // Випадкові числа від 0 до 14
+    }
+
+    arr2.write(reinterpret_cast<const char*>(a), size * sizeof(int));
+    arr2.close();
+    cout<<"Масив записаний у бінарний файл!"<<endl;
+}
+
 int main()
 {
     int choice;
-    cout<< "Це червоний текст" << endl;
     do{
         taskMenu();
         cin>>choice;
@@ -45,7 +63,9 @@ int main()
         switch(choice){
             case 1:
                 cout<<endl<<"Ви обрали завдання 1"<<endl;
-                cout<<"*Функція A*"<<endl<<a1()<<endl;
+                //cout<<"*Функція A*"<<endl<<a()<<endl;
+                cout<<"*Функція B*"<<endl; 
+                b();
                 break;
             case 2:
                 cout<<"Ви обрали завдання 2"<<endl;
