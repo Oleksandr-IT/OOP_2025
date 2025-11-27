@@ -19,17 +19,14 @@ void findTrains(const vector<Train>& trains, const string& targetDestination, in
               [](unsigned char c){ return tolower(c); });
 
     for (const auto& train : trains) {
-        // Отримання Destination для порівняння без урахування регістру
         string lowerTrainDest = train.getDestination();
         transform(lowerTrainDest.begin(), lowerTrainDest.end(), lowerTrainDest.begin(), 
                   [](unsigned char c){ return tolower(c); });
 
-        // Основна умова: Пункт призначення повинен збігатися
         if (lowerTrainDest != lowerTargetDest) {
             continue;
         }
 
-        // Додаткові умови фільтрації
         bool timeCondition = !checkTime || (train.getDepartureTime() > departureHour);
         bool seatsCondition = !checkGeneralSeats || train.hasGeneralSeats();
 
@@ -55,15 +52,12 @@ int main() {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
-    // Створення масиву об'єктів (вектора) Train
     vector<Train> ZAKAZ(N); 
     
     cout << "\n*** ВВЕДЕННЯ ДАНИХ ПРО ПОЇЗДИ ***" << endl;
     for (int i = 0; i < N; ++i) {
         ZAKAZ[i].readData();
     }
-
-    // --- Запити користувача для фільтрації ---
 
     string targetDest;
     cout << "\n\n*** ЗАПИТИ ***" << endl;
@@ -79,23 +73,10 @@ int main() {
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
-    // -----------------------------------------------------------------
-    // а) Список поїздів, що прямують до заданого пункту призначення
-    // -----------------------------------------------------------------
     cout << "\n\n--- а) Поїзди до пункту \"" << targetDest << "\" ---" << endl;
     findTrains(ZAKAZ, targetDest, 0, false, false);
-    
-    // -----------------------------------------------------------------
-    // б) Список поїздів, що прямують до заданого пункту призначення 
-    //    та відправляються після заданої години
-    // -----------------------------------------------------------------
     cout << "\n\n--- б) Поїзди до \"" << targetDest << "\" після " << filterHour << ":00 год ---" << endl;
     findTrains(ZAKAZ, targetDest, filterHour, true, false);
-
-    // -----------------------------------------------------------------
-    // в) Список поїздів, що вирушають до заданого пункту призначення 
-    //    та мають спільні місця
-    // -----------------------------------------------------------------
     cout << "\n\n--- в) Поїзди до \"" << targetDest << "\" зі спільними місцями ---" << endl;
     findTrains(ZAKAZ, targetDest, 0, false, true);
 

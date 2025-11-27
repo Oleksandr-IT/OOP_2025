@@ -18,6 +18,8 @@ string encryptString(const string& input, int shift) {
 }
 
 int main() {
+    setlocale(LC_ALL, "uk_UA.UTF-8");
+
     string text;
     int shift;
 
